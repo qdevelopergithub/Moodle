@@ -7,7 +7,7 @@
             "metadata": {
                 "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
             },
-            "defaultValue": "https://raw.githubusercontent.com/Azure/Moodle/master/"
+            "defaultValue": "https://raw.githubusercontent.com/qdevelopergithub/custom_lamp_master/master/"
         },
         "_artifactsLocationSasToken": {
             "type": "securestring",
@@ -113,19 +113,8 @@
             "type": "string"
         },
         "moodleVersion": {
-            "allowedValues": [
-                "MOODLE_35_STABLE",
-                "MOODLE_34_STABLE",
-                "v3.4.3",
-                "v3.4.2",
-                "v3.4.1",
-                "MOODLE_33_STABLE",
-                "MOODLE_32_STABLE",
-                "MOODLE_31_STABLE",
-                "MOODLE_30_STABLE",
-                "MOODLE_29_STABLE"
-            ],
-            "defaultValue": "MOODLE_35_STABLE",
+            "allowedValues": [],
+            "defaultValue": "",
             "metadata": {
                 "description": "The Moodle version you want to install."
             },
@@ -368,13 +357,6 @@
             ],
             "metadata": {
                 "description": "File server type: GlusterFS, NFS, and NFS-HA (2-VM highly available NFS cluster)"
-            },
-            "type": "string"
-        },
-        "nfsByoIpExportPath": {
-            "defaultValue": "",
-            "metadata": {
-                "description": "IP address and export path of the BYO-NFS share when fileServerType == nfs-byo. E.g., 172.16.1.8:/msazure"
             },
             "type": "string"
         },
@@ -773,30 +755,6 @@
             }
         },
         {
-            "condition": "[and(equals(parameters('tikaService'), 'tika'), not(equals(parameters('searchType'), 'none')))]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2017-05-10",
-            "dependsOn": [
-                "Microsoft.Resources/deployments/networkTemplate",
-                "Microsoft.Resources/deployments/recoveryTemplate"
-            ],
-            "name": "tikaTemplate",
-            "properties": {
-                "mode": "Incremental",
-                "parameters": {
-                    "moodleCommon": {
-                        "value": "[variables('moodleCommon')]"
-                    },
-                    "subnetIdTika": {
-                        "value": "[reference('networkTemplate').outputs.subnetIdTika.value]"
-                    }
-                },
-                "templateLink": {
-                    "uri": "[concat(variables('moodleCommon').baseTemplateUrl, 'tika.json', parameters('_artifactsLocationSasToken'))]"
-                }
-            }
-        },
-        {
             "condition": "[equals(parameters('fileServerType'),'gluster')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
@@ -1091,7 +1049,6 @@
             "elasticNicName1": "[concat('elastic-vm-nic-01-',variables('resourceprefix'))]",
             "elasticNicName2": "[concat('elastic-vm-nic-02-',variables('resourceprefix'))]",
             "elasticNicName3": "[concat('elastic-vm-nic-03-',variables('resourceprefix'))]",
-            "elasticScriptFilename": "install_elastic.sh",
             "elasticVm1IP": "[concat( variables('octets')[0], '.', variables('octets')[1], '.', string(add(int(variables('octets')[2]),4)), '.20')]",
             "elasticVm2IP": "[concat( variables('octets')[0], '.', variables('octets')[1], '.', string(add(int(variables('octets')[2]),4)), '.21')]",
             "elasticVm3IP": "[concat( variables('octets')[0], '.', variables('octets')[1], '.', string(add(int(variables('octets')[2]),4)), '.22')]",
@@ -1132,7 +1089,6 @@
             "moodleDbPass": "[concat('9#36^', substring(uniqueString(resourceGroup().id, deployment().name), 5, 8), toUpper('ercq'))]",
             "moodleDbUser": "moodle",
             "moodleDbUserAzure": "[concat('moodle', '@', parameters('dbServerType'), '-', variables('resourceprefix'))]",
-            "moodleInstallScriptFilename": "install_moodle.sh",
             "moodleOnAzureConfigsJsonPath": "/var/lib/cloud/instance/moodle_on_azure_configs.json",
             "moodleVersion": "[parameters('moodleVersion')]",
             "mssqlDbServiceObjectiveName": "[parameters('mssqlDbServiceObjectiveName')]",
@@ -1145,7 +1101,6 @@
             "mysqlPgresStgSizeGB": "[parameters('mysqlPgresStgSizeGB')]",
             "mysqlPgresVcores": "[parameters('mysqlPgresVcores')]",
             "mysqlVersion": "[parameters('mysqlVersion')]",
-            "nfsByoIpExportPath": "[parameters('nfsByoIpExportPath')]",
             "nfsHaClientsIPRange": "[variables('subnetWebRange')]",
             "nfsHaExportPath": "/drbd/data",
             "nfsHaLbIP": "[concat(variables('subnetSanPrefix'), '.100')]",
@@ -1196,7 +1151,6 @@
             "thumbprintSslCert": "[if(or(empty(parameters('keyVaultResourceId')), empty(parameters('sslCertThumbprint'))), 'None', parameters('sslCertThumbprint'))]",
             "thumbprintCaCert": "[if(or(empty(parameters('keyVaultResourceId')), empty(parameters('caCertThumbprint'))), 'None', parameters('caCertThumbprint'))]",
             "tikaNicName": "[concat('tika-vm-nic-',variables('resourceprefix'))]",
-            "tikaScriptFilename": "install_tika.sh",
             "tikaService": "[parameters('tikaService')]",
             "tikaVmIP": "[if(equals(parameters('tikaService'), 'tika'), concat( variables('octets')[0], '.', variables('octets')[1], '.', string(add(int(variables('octets')[2]),5)), '.20'), 'none')]",
             "tikaVmName": "[concat('tika-vm-',variables('resourceprefix'))]",

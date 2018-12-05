@@ -59,7 +59,6 @@ function get_setup_params_from_configs_json
     export nfsVmName=$(echo $json | jq -r .fileServerProfile.nfsVmName)
     export nfsHaLbIP=$(echo $json | jq -r .fileServerProfile.nfsHaLbIP)
     export nfsHaExportPath=$(echo $json | jq -r .fileServerProfile.nfsHaExportPath)
-    export nfsByoIpExportPath=$(echo $json | jq -r .fileServerProfile.nfsByoIpExportPath)
 }
 
 function get_php_version {

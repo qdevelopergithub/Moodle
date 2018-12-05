@@ -440,18 +440,6 @@ Possible Values: ["gluster","nfs","nfs-ha","nfs-byo"]
 
 Default: nfs
 
-
-### nfsByoIpExportPath
-
-IP address and export path of the BYO-NFS share when fileServerType == nfs-byo. E.g., 172.16.1.8:/msazure
-
-Type: string
-
-Possible Values: null
-
-Default: 
-
-
 ### fileServerDiskSize
 
 Size per disk for gluster nodes or nfs server

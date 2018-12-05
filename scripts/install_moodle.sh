@@ -30,7 +30,6 @@ set -ex
 
     get_setup_params_from_configs_json $moodle_on_azure_configs_json_path || exit 99
 
-    echo $moodleVersion        >> /tmp/vars.txt
     echo $glusterNode          >> /tmp/vars.txt
     echo $glusterVolume        >> /tmp/vars.txt
     echo $siteFQDN             >> /tmp/vars.txt
@@ -63,7 +62,6 @@ set -ex
     echo $azureSearchKey >> /tmp/vars.txt
     echo $azureSearchNameHost >> /tmp/vars.txt
     echo $tikaVmIP >> /tmp/vars.txt
-    echo $nfsByoIpExportPath >> /tmp/vars.txt
 
     check_fileServerType_param $fileServerType
 
@@ -162,10 +160,6 @@ set -ex
         # mount NFS-HA export
         echo -e '\n\rMounting NFS export from '$nfsHaLbIP' on /moodle\n\r'
         configure_nfs_client_and_mount $nfsHaLbIP $nfsHaExportPath /moodle
-    elif [ $fileServerType = "nfs-byo" ]; then
-        # mount NFS-BYO export
-        echo -e '\n\rMounting NFS export from '$nfsByoIpExportPath' on /moodle\n\r'
-        configure_nfs_client_and_mount0 $nfsByoIpExportPath /moodle
     fi
     
     # install pre-requisites
