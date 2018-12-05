@@ -1029,7 +1029,6 @@
             "azureSearchPartitionCount": "[parameters('azureSearchPartitionCount')]",
             "azureSearchReplicaCount": "[parameters('azureSearchReplicaCount')]",
             "azureSearchSku": "[parameters('azureSearchSku')]",
-            "commonFunctionsScriptUri": "[concat(parameters('_artifactsLocation'),'scripts/helper_functions.sh',parameters('_artifactsLocationSasToken'))]",
             "controllerVmSku": "[parameters('controllerVmSku')]",
             "customVnetId": "[parameters('customVnetId')]",
             "ctlrNicName": "[concat('controller-vm-nic-',variables('resourceprefix'))]",

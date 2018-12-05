@@ -10,29 +10,7 @@
         }
     },
     "resources": [
-        {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "apiVersion": "2017-03-30",
-            "location": "[parameters('moodleCommon').location]",
-            "name": "[concat(parameters('moodleCommon').tikaVmName,'/','install_tika')]",
-            "properties": {
-                "autoUpgradeMinorVersion": true,
-                "publisher": "Microsoft.Azure.Extensions",
-                "settings": {
-                    "fileUris": [
-                        "[variables('scriptUri')]"
-                    ]
-                },
-                "protectedSettings":{
-                    "commandToExecute": "[variables('cmdExec')]"
-                },
-                "type": "CustomScript",
-                "typeHandlerVersion": "2.0"
-            },
-            "tags": {
-                "displayName": "install_tika"
-            }
-        }
+        
     ],
     "variables": {
         "documentation01": "This sub-template applies a specific post-deployment script to the tika vm",
